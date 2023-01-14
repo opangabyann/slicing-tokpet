@@ -5,6 +5,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:tokopedia/app/routes/app_pages.dart';
 import 'package:tokopedia/config/warna.dart';
 
 import '../controllers/splash_screen_controller.dart';
@@ -27,59 +28,67 @@ class SplashScreenView extends GetView<SplashScreenController> {
             child: Column(
               children: [
                 Container(
-                  width: lebar,
-                  height: tinggi * 0.3,
-                  margin: EdgeInsets.only(bottom: 30, top: 50),
-                  decoration: BoxDecoration(
-                      // color: Colors.black,
-                      image: DecorationImage(
-                          image: AssetImage('assets/images/sp.png'))),
-                ),
-                Container(
-                  margin: EdgeInsets.only(bottom: 20),
-                  // width: lebar * 0.6,
-                  child: Text(
-                    "Let's Get Started",
-                    style: TextStyle(
-                        height: 1.3,
-                        color: Colors.white,
-                        fontSize: 50,
-                        fontWeight: FontWeight.w700),
+                  height: tinggi * 0.85,
+                  child: Column(
+                    children: [
+                      Container(
+                        width: lebar,
+                        height: tinggi * 0.3,
+                        margin: EdgeInsets.only(bottom: 30, top: 50),
+                        decoration: BoxDecoration(
+                            // color: Colors.black,
+                            image: DecorationImage(
+                                image: AssetImage('assets/images/sp.png'))),
+                      ),
+                      Container(
+                        margin: EdgeInsets.only(bottom: 20),
+                        // width: lebar * 0.6,
+                        child: Text(
+                          "Let's Get Started",
+                          style: TextStyle(
+                              height: 1.3,
+                              color: Colors.white,
+                              fontSize: 50,
+                              fontWeight: FontWeight.w700),
+                        ),
+                      ),
+                      Container(
+                        width: 350,
+                        margin: EdgeInsets.only(bottom: 20),
+                        child: Text(
+                          'Connect with each other with buying or selling. Enjoy safe and private commersing',
+                          style: TextStyle(
+                              height: 1.3,
+                              color: Colors.white,
+                              fontSize: 17,
+                              fontWeight: FontWeight.w400),
+                        ),
+                      ),
+                      InkWell(
+                          onTap: () => Get.toNamed(Routes.REGISTER),
+                          child: Container(
+                            margin: EdgeInsets.only(top: 40),
+                            width: lebar,
+                            height: 55,
+                            decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(6)),
+                            child: Center(
+                              child: Text(
+                                'Join Now',
+                                style: TextStyle(
+                                    color: bgLogin2,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w500),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          )),
+                    ],
                   ),
                 ),
                 Container(
-                  width: 350,
-                  margin: EdgeInsets.only(bottom: 20),
-                  child: Text(
-                    'Connect with each other with buying or selling. Enjoy safe and private commersing',
-                    style: TextStyle(
-                        height: 1.3,
-                        color: Colors.white,
-                        fontSize: 17,
-                        fontWeight: FontWeight.w400),
-                  ),
-                ),
-                InkWell(
-                    child: Container(
-                  margin: EdgeInsets.only(top: 70),
-                  width: lebar,
-                  height: 55,
-                  decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(6)),
-                  child: Center(
-                    child: Text(
-                      'Join Now',
-                      style: TextStyle(
-                          color: bgLogin2,
-                          fontSize: 16,
-                          fontWeight: FontWeight.w500),
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                )),
-                Container(
-                  margin: EdgeInsets.only(top: 15),
+                  // margin: EdgeInsets.only(top: 15),
                   width: lebar,
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -96,14 +105,15 @@ class SplashScreenView extends GetView<SplashScreenController> {
                         width: 5,
                       ),
                       InkWell(
+                          onTap: () => Get.toNamed(Routes.LOGIN),
                           child: Text(
-                        "Login",
-                        style: TextStyle(
-                            height: 1.3,
-                            color: Colors.white,
-                            fontSize: 17,
-                            fontWeight: FontWeight.w600),
-                      )),
+                            "Login",
+                            style: TextStyle(
+                                height: 1.3,
+                                color: Colors.white,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w600),
+                          )),
                     ],
                   ),
                 )

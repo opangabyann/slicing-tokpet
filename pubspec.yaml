@@ -2,22 +2,22 @@ name: tokopedia
 version: 1.0.0+1
 publish_to: none
 description: A new Flutter project.
-environment: 
+environment:
   sdk: '>=2.18.6 <3.0.0'
 
-dependencies: 
+dependencies:
   cupertino_icons: ^1.0.2
+  flutter:
+    sdk: flutter
   get: 4.6.5
-  flutter: 
-    sdk: flutter
+  intl_phone_number_input: ^0.7.2
 
-dev_dependencies: 
+dev_dependencies:
   flutter_lints: 2.0.1
-  flutter_test: 
+  flutter_test:
     sdk: flutter
 
-flutter: 
+flutter:
   assets:
     - 'assets/images/'
   uses-material-design: true
-
