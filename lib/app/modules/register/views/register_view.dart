@@ -3,7 +3,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
-import 'package:intl_phone_number_input/intl_phone_number_input.dart';
+// import 'package:intl_phone_number_input/intl_phone_number_input.dart';
 import 'package:tokopedia/app/routes/app_pages.dart';
 import 'package:tokopedia/config/warna.dart';
 
@@ -69,7 +69,7 @@ class RegisterView extends GetView<RegisterController> {
                           SizedBox(
                             height: 20,
                           ),
-                          PhoneInput(),
+                          // PhoneInput(),
                           SizedBox(
                             height: 20,
                           ),
@@ -279,78 +279,78 @@ Widget SocialMediaButton({text, image, required BuildContext context}) {
   );
 }
 
-Widget PhoneInput() {
-  return Column(
-    children: [
-      Container(
-        margin: EdgeInsets.only(bottom: 5),
-        child: Align(
-          alignment: Alignment.centerLeft,
-          child: Text('Phone Number',
-              style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
-        ),
-      ),
-      Container(
-        padding: EdgeInsets.symmetric(horizontal: 10),
-        decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(6),
-            border: Border.all(width: 1, color: abuAbu)),
-        child: Stack(
-          children: [
-            InternationalPhoneNumberInput(
-              onInputChanged: (PhoneNumber number) {
-                // print(number.phoneNumber);
-              },
-              onInputValidated: (bool value) {
-                // print(value);
-              },
-              selectorConfig: SelectorConfig(
-                selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
-              ),
-              ignoreBlank: false,
-              autoValidateMode: AutovalidateMode.disabled,
-              selectorTextStyle: TextStyle(color: Colors.black),
-              // textFieldController: controller,
-              formatInput: false,
-              maxLength: 12,
-              keyboardType:
-                  TextInputType.numberWithOptions(signed: true, decimal: true),
-              cursorColor: Colors.black,
-              inputDecoration: InputDecoration(
-                labelStyle: const TextStyle(
-                  fontFamily: "Poppins",
-                  color: Colors.black,
-                  fontSize: 19,
-                ),
-                hintText: 'Phone Number',
-                hintStyle: TextStyle(
-                    fontFamily: "Poppins",
-                    color: abuAbu,
-                    fontSize: 16,
-                    fontWeight: FontWeight.w400),
-                floatingLabelBehavior: FloatingLabelBehavior.always,
-                contentPadding: const EdgeInsets.symmetric(
-                  vertical: 18,
-                ),
-                border: InputBorder.none,
-              ),
-              // onSaved: (PhoneNumber number) {
-              //   print('On Saved: $number');
-              // },
-            ),
-            Positioned(
-              left: 90,
-              top: 8,
-              bottom: 8,
-              child: Container(
-                height: 40,
-                width: 1,
-                color: Colors.black.withOpacity(0.13),
-              ),
-            ),
-          ],
-        ),
-      ),
-    ],
-  );
-}
+// Widget PhoneInput() {
+//   return Column(
+//     children: [
+//       Container(
+//         margin: EdgeInsets.only(bottom: 5),
+//         child: Align(
+//           alignment: Alignment.centerLeft,
+//           child: Text('Phone Number',
+//               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500)),
+//         ),
+//       ),
+//       Container(
+//         padding: EdgeInsets.symmetric(horizontal: 10),
+//         decoration: BoxDecoration(
+//             borderRadius: BorderRadius.circular(6),
+//             border: Border.all(width: 1, color: abuAbu)),
+//         child: Stack(
+//           children: [
+//             InternationalPhoneNumberInput(
+//               onInputChanged: (PhoneNumber number) {
+//                 // print(number.phoneNumber);
+//               },
+//               onInputValidated: (bool value) {
+//                 // print(value);
+//               },
+//               selectorConfig: SelectorConfig(
+//                 selectorType: PhoneInputSelectorType.BOTTOM_SHEET,
+//               ),
+//               ignoreBlank: false,
+//               autoValidateMode: AutovalidateMode.disabled,
+//               selectorTextStyle: TextStyle(color: Colors.black),
+//               // textFieldController: controller,
+//               formatInput: false,
+//               maxLength: 12,
+//               keyboardType:
+//                   TextInputType.numberWithOptions(signed: true, decimal: true),
+//               cursorColor: Colors.black,
+//               inputDecoration: InputDecoration(
+//                 labelStyle: const TextStyle(
+//                   fontFamily: "Poppins",
+//                   color: Colors.black,
+//                   fontSize: 19,
+//                 ),
+//                 hintText: 'Phone Number',
+//                 hintStyle: TextStyle(
+//                     fontFamily: "Poppins",
+//                     color: abuAbu,
+//                     fontSize: 16,
+//                     fontWeight: FontWeight.w400),
+//                 floatingLabelBehavior: FloatingLabelBehavior.always,
+//                 contentPadding: const EdgeInsets.symmetric(
+//                   vertical: 18,
+//                 ),
+//                 border: InputBorder.none,
+//               ),
+//               // onSaved: (PhoneNumber number) {
+//               //   print('On Saved: $number');
+//               // },
+//             ),
+//             Positioned(
+//               left: 90,
+//               top: 8,
+//               bottom: 8,
+//               child: Container(
+//                 height: 40,
+//                 width: 1,
+//                 color: Colors.black.withOpacity(0.13),
+//               ),
+//             ),
+//           ],
+//         ),
+//       ),
+//     ],
+//   );
+// }
