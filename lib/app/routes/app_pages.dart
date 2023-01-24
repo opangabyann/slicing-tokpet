@@ -1,5 +1,8 @@
 import 'package:get/get.dart';
 
+import 'package:tokopedia/app/modules/detail/bindings/detail_binding.dart';
+import 'package:tokopedia/app/modules/detail/views/detail_view.dart';
+
 import '../modules/SplashScreen/bindings/splash_screen_binding.dart';
 import '../modules/SplashScreen/views/splash_screen_view.dart';
 import '../modules/checkEmail/bindings/check_email_binding.dart';
@@ -18,7 +21,7 @@ part 'app_routes.dart';
 class AppPages {
   AppPages._();
 
-  static const INITIAL = Routes.LOGIN;
+  static const INITIAL = Routes.DETAIL;
 
   static final routes = [
     GetPage(
@@ -50,6 +53,11 @@ class AppPages {
       name: _Paths.CHECK_EMAIL,
       page: () => const CheckEmailView(),
       binding: CheckEmailBinding(),
+    ),
+    GetPage(
+      name: _Paths.DETAIL,
+      page: () => DetailView(),
+      binding: DetailBinding(),
     ),
   ];
 }

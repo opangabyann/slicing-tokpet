@@ -1,10 +1,7 @@
-// ignore_for_file: unnecessary_overrides
-
 import 'package:get/get.dart';
 
-class CheckEmailController extends GetxController {
-  // ignore: todo
-  //TODO: Implement CheckEmailController
+class DetailController extends GetxController {
+  //TODO: Implement DetailController
 
   final count = 0.obs;
   @override
@@ -18,9 +15,6 @@ class CheckEmailController extends GetxController {
   }
 
   @override
-  void onClose() {
-    super.onClose();
-  }
-
+  void onClose() {}
   void increment() => count.value++;
 }

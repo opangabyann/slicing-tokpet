@@ -9,3 +9,4 @@ Color subJudul = const Color(0xff6b6b6b);
 Color merah = const Color(0xffD6001C);
 Color merahTrans = const Color(0x1aD6001C);
 Color hijau = const Color(0xff03A759);
+Color hijautrans = const Color(0x1a03A759);

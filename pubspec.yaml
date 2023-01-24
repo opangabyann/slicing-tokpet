@@ -22,4 +22,5 @@ flutter:
   assets:
     - 'assets/images/'
     - 'assets/images/menu/'
+    - 'assets/images/detail/'
   uses-material-design: true
