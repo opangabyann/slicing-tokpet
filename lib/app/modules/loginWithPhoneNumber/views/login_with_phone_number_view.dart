@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_constructors, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, non_constant_identifier_names, use_key_in_widget_constructors, unused_local_variable, annotate_overrides
+// ignore_for_file: avoid_unnecessary_containers
 
 import 'package:flutter/material.dart';
 
@@ -7,14 +7,14 @@ import 'package:tokopedia/app/controllers/auth_controller_controller.dart';
 import 'package:tokopedia/app/routes/app_pages.dart';
 import 'package:tokopedia/config/warna.dart';
 
-import '../controllers/forgot_password_controller.dart';
+import '../controllers/login_with_phone_number_controller.dart';
 
-class ForgotPasswordView extends GetView<ForgotPasswordController> {
-  final controller = Get.put(ForgotPasswordController());
+class LoginWithPhoneNumberView extends GetView<LoginWithPhoneNumberController> {
   final authC = Get.put(AuthControllerController());
+  final controller = Get.put(LoginWithPhoneNumberController());
   @override
   Widget build(BuildContext context) {
-    double tinggi = MediaQuery.of(context).size.height;
+   double tinggi = MediaQuery.of(context).size.height;
     double lebar = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Scaffold(
@@ -25,24 +25,14 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
               Container(
                 child: Column(
                   children: [
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: InkWell(
-                        onTap: () => Get.toNamed(Routes.LOGIN),
-                        child: Icon(
-                          Icons.arrow_back_rounded,
-                          color: Colors.black,
-                          size: 28,
-                        ),
-                      ),
-                    ),
+                    
                     Container(
                       margin: EdgeInsets.symmetric(vertical: 12),
                       child: Align(
                           alignment: Alignment.centerLeft,
                           child: IntrinsicWidth(
                               child: const Text(
-                            'Create Account',
+                            'Login with phone number',
                             style: TextStyle(
                                 fontSize: 26, fontWeight: FontWeight.w600),
                           ))),
@@ -52,7 +42,7 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                       alignment: Alignment.centerLeft,
                       margin: EdgeInsets.only(bottom: 25),
                       child: Text(
-                          'Enter the email associated with your account and we`ll send an email with instructions to reset your password.',
+                          'login with your phone number',
                           style: TextStyle(
                               fontSize: 14,
                               fontWeight: FontWeight.w400,
@@ -63,58 +53,42 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                       child: Column(
                         children: [
                           Container(
+                            // ignore: prefer_const_constructors
                             margin: EdgeInsets.only(bottom: 5),
+                            // ignore: prefer_const_constructors
                             child: Align(
                               alignment: Alignment.centerLeft,
-                              child: Text('Email address',
+                              // ignore: prefer_const_constructors
+                              child: Text('Phone number',
+                                  // ignore: prefer_const_constructors
                                   style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w500)),
                             ),
                           ),
                           Container(
-                            child: TextFormField(
-                                controller: controller.email,
-                                obscureText: false,
-                                decoration: InputDecoration(
-                                  // labelText: customLabel,
-                                  labelStyle: const TextStyle(
-                                    fontFamily: "Poppins",
-                                    color: Colors.black,
-                                    fontSize: 19,
+                            child: TextField(
+                                    controller: controller.numberPhone,
+                                    decoration: InputDecoration(
+                                      prefixIcon: Container(
+                                          padding: EdgeInsets.all(10),
+                                          // ignore: prefer_const_constructors
+                                          child: Text(
+                                            "+62",
+                                            // ignore: prefer_const_constructors
+                                            style: TextStyle(
+                                                fontSize: 17,
+                                                color: Colors.grey),
+                                          )),
+                                      hintText: "Phone Number",
+                                      labelText: "Phone Number",
+                                      border: OutlineInputBorder(),
+                                    ),
                                   ),
-                                  hintText: 'Enter your email address',
-                                  hintStyle: TextStyle(
-                                      fontFamily: "Poppins",
-                                      color: abuAbu,
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w400),
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.always,
-                                  contentPadding: const EdgeInsets.symmetric(
-                                    horizontal: 20,
-                                    vertical: 18,
-                                  ),
-                                  suffixIcon: Icon(Icons.email_outlined),
-                                  enabledBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(6),
-                                    borderSide:
-                                        BorderSide(color: abuAbu, width: 1),
-                                    gapPadding: 5,
-                                  ),
-                                  focusedBorder: OutlineInputBorder(
-                                    borderRadius: BorderRadius.circular(6),
-                                    borderSide: const BorderSide(
-                                        color: Color.fromARGB(255, 27, 27, 27),
-                                        width: 1),
-                                    gapPadding: 5,
-                                  ),
-                                  // filled: true,
-                                )),
                           ),
                           Container(
                             child: InkWell(
-                              onTap: () => authC.resetPassword(controller.email.text),
+                              onTap: () =>authC.verifyPhone(controller.numberPhone.text),
                               child: Container(
                                 margin: EdgeInsets.only(top: 50),
                                 width: lebar,

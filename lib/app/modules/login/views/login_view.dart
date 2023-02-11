@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:tokopedia/app/controllers/auth_controller_controller.dart';
 import 'package:tokopedia/app/routes/app_pages.dart';
 import 'package:tokopedia/config/warna.dart';
 
@@ -10,6 +11,7 @@ import '../controllers/login_controller.dart';
 
 class LoginView extends GetView<LoginController> {
   final controller = Get.put(LoginController());
+  final authC = Get.put(AuthControllerController());
   @override
   Widget build(BuildContext context) {
     double tinggi = MediaQuery.of(context).size.height;
@@ -54,6 +56,7 @@ class LoginView extends GetView<LoginController> {
                               ),
                             ),
                             CustomInput(
+                              controller: controller.email,
                                 label: 'Email Address',
                                 hint: 'Masukkan email',
                                 obscure: false),
@@ -61,6 +64,7 @@ class LoginView extends GetView<LoginController> {
                               height: 20,
                             ),
                             CustomInput(
+                              controller: controller.password,
                               label: 'Password',
                               hint: 'Enter your password',
                               obscure: controller.visibilityPassword.value
@@ -88,7 +92,7 @@ class LoginView extends GetView<LoginController> {
                               ),
                             ),
                             InkWell(
-                              onTap: () => Get.toNamed(Routes.HOME),
+                              onTap: () => authC.login(controller.email.text, controller.password.text),
                               child: Container(
                                 margin: EdgeInsets.only(top: 40),
                                 width: lebar,
@@ -108,6 +112,16 @@ class LoginView extends GetView<LoginController> {
                                     ),
                                   ],
                                 ),
+                              ),
+                            ),
+                            InkWell(
+                              onTap: ()=> Get.toNamed(Routes.REGISTER),
+                              child: Container(
+                                margin: EdgeInsets.only(top: 20),
+                                child: Text("Dont have an account?",style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.w400,
+                                            color: abuAbu),),
                               ),
                             ),
                             Container(
@@ -144,10 +158,12 @@ class LoginView extends GetView<LoginController> {
                                     MainAxisAlignment.spaceBetween,
                                 children: [
                                   SocialMediaButton(
+                                      ontep: () => authC.signInWithFacebook(),
                                       text: 'Facebook',
                                       image: 'assets/images/Facebook.png',
                                       context: context),
                                   SocialMediaButton(
+                                      ontep: ()=> authC.signInWithGoogle(),
                                       text: 'Google',
                                       image: 'assets/images/Google.png',
                                       context: context),
@@ -248,10 +264,11 @@ Widget CustomInput({label, controller, obscure, hint, icon}) {
   );
 }
 
-Widget SocialMediaButton({text, image, required BuildContext context}) {
+Widget SocialMediaButton({text, image, required BuildContext context,ontep}) {
   double tinggi = MediaQuery.of(context).size.height;
   double lebar = MediaQuery.of(context).size.width;
   return InkWell(
+    onTap:  ontep,
     child: Container(
       width: lebar * 0.4,
       height: 55,

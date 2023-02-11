@@ -3,13 +3,14 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:tokopedia/app/controllers/auth_controller_controller.dart';
 import 'package:tokopedia/app/routes/app_pages.dart';
 import 'package:tokopedia/config/warna.dart';
 
 import '../controllers/check_email_controller.dart';
 
 class CheckEmailView extends GetView<CheckEmailController> {
-  const CheckEmailView({Key? key}) : super(key: key);
+  final authC = Get.put(AuthControllerController());
   @override
   Widget build(BuildContext context) {
     double tinggi = MediaQuery.of(context).size.height;
@@ -57,7 +58,7 @@ class CheckEmailView extends GetView<CheckEmailController> {
                       ),
                       Container(
                         child: InkWell(
-                          // onTap: () => Get.toNamed(Routes.CHECK_EMAIL),
+                          onTap: () => authC.openMail(),
                           child: Container(
                             margin: EdgeInsets.only(top: 50),
                             width: lebar * 0.4,

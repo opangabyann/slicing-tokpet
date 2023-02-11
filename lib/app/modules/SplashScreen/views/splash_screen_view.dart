@@ -116,7 +116,20 @@ class SplashScreenView extends GetView<SplashScreenController> {
                           )),
                     ],
                   ),
-                )
+                ),
+                InkWell(
+                  onTap: () => Get.toNamed(Routes.LOGIN_WITH_PHONE_NUMBER),
+                  child: Container(
+                    child: Text(
+                            'login with phone number',
+                            style: TextStyle(
+                                height: 1.3,
+                                color: Colors.white,
+                                fontSize: 17,
+                                fontWeight: FontWeight.w400),
+                          ),
+                  ),
+                ),
               ],
             )));
   }

@@ -5,12 +5,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:tokopedia/app/controllers/auth_controller_controller.dart';
 import 'package:tokopedia/config/warna.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
-  const HomeView({Key? key}) : super(key: key);
+  
+  final authC = Get.put(AuthControllerController());
   @override
   Widget build(BuildContext context) {
     double tinggi = MediaQuery.of(context).size.height;
@@ -58,10 +60,13 @@ class HomeView extends GetView<HomeController> {
                           size: 20,
                           color: Colors.white,
                         ),
-                        Icon(
-                          CupertinoIcons.line_horizontal_3,
-                          size: 20,
-                          color: Colors.white,
+                        InkWell(
+                          onTap: () => authC.logOut(),
+                          child: Icon(
+                            CupertinoIcons.line_horizontal_3,
+                            size: 20,
+                            color: Colors.white,
+                          ),
                         ),
                       ],
                     ),
@@ -519,7 +524,7 @@ Widget Produk({
 }) {
   return Container(
     margin: EdgeInsets.only(right : 15,bottom: 15  ),
-    width: 200,
+    width: 146,
     height: 323,
     decoration: BoxDecoration(
       color: Colors.white,

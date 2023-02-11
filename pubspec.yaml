@@ -7,15 +7,21 @@ environment:
 
 dependencies:
   carousel_slider: ^4.2.1
+  cloud_firestore: ^4.3.2
   cupertino_icons: ^1.0.2
+  firebase_auth: ^4.2.5
   flutter:
     sdk: flutter
   get: 4.6.5
+  pinput: ^2.2.5
+  url_launcher: ^6.1.8
 
 dev_dependencies:
+  firebase_core: ^2.4.1
   flutter_lints: 2.0.1
   flutter_test:
     sdk: flutter
+  google_sign_in: ^5.4.4
   step_progress_indicator: ^1.0.2
 
 flutter:
