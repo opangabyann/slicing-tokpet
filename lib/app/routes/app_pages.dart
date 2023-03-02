@@ -10,6 +10,8 @@ import 'package:tokopedia/app/modules/loginWithPhoneNumber/bindings/login_with_p
 import 'package:tokopedia/app/modules/loginWithPhoneNumber/views/login_with_phone_number_view.dart';
 import 'package:tokopedia/app/modules/otpVerif/bindings/otp_verif_binding.dart';
 import 'package:tokopedia/app/modules/otpVerif/views/otp_verif_view.dart';
+import 'package:tokopedia/app/modules/produk_data/bindings/produk_data_binding.dart';
+import 'package:tokopedia/app/modules/produk_data/views/produk_data_view.dart';
 import 'package:tokopedia/app/modules/sliderData/bindings/slider_data_binding.dart';
 import 'package:tokopedia/app/modules/sliderData/views/slider_data_view.dart';
 import 'package:tokopedia/app/modules/updateData/bindings/update_data_binding.dart';
@@ -100,6 +102,11 @@ class AppPages {
       name: _Paths.CREATE_DATA,
       page: () => CreateDataView(),
       binding: CreateDataBinding(),
+    ),
+    GetPage(
+      name: _Paths.PRODUK_DATA,
+      page: () => ProdukDataView(),
+      binding: ProdukDataBinding(),
     ),
   ];
 }

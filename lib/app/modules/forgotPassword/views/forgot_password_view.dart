@@ -42,7 +42,7 @@ class ForgotPasswordView extends GetView<ForgotPasswordController> {
                           alignment: Alignment.centerLeft,
                           child: IntrinsicWidth(
                               child: const Text(
-                            'Create Account',
+                            'Forgot password',
                             style: TextStyle(
                                 fontSize: 26, fontWeight: FontWeight.w600),
                           ))),

@@ -1,18 +1,27 @@
 // ignore_for_file: prefer_const_constructors, prefer_const_literals_to_create_immutables
 
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
 import 'package:tokopedia/app/controllers/auth_controller_controller.dart';
+import 'package:tokopedia/app/controllers/produk_controller.dart';
+import 'package:tokopedia/app/controllers/slider_controller.dart';
+import 'package:tokopedia/app/modules/detail/views/detail_view.dart';
+import 'package:tokopedia/app/modules/produk_data/controllers/produk_data_controller.dart';
+import 'package:tokopedia/app/routes/app_pages.dart';
 import 'package:tokopedia/config/warna.dart';
 import 'package:step_progress_indicator/step_progress_indicator.dart';
 import '../controllers/home_controller.dart';
 
 class HomeView extends GetView<HomeController> {
-  
+  final sliderC = Get.put(SliderController());
   final authC = Get.put(AuthControllerController());
+  final produkC = Get.put(ProdukController());
+  final produkC2 = Get.put(ProdukDataController());
+  final homeC = Get.put(HomeController());
   @override
   Widget build(BuildContext context) {
     double tinggi = MediaQuery.of(context).size.height;
@@ -74,37 +83,77 @@ class HomeView extends GetView<HomeController> {
                 ],
               ),
             ),
-            Container(
-                margin: EdgeInsets.only(top: 20),
-                // height: tinggi * 0.2,
-                child: CarouselSlider(
-                  options: CarouselOptions(
-                    height: tinggi * 0.15,
-                    autoPlay: true,
-                    autoPlayCurve: Curves.easeInOutQuart,
-                  ),
-                  items: [
-                    'assets/images/kebut.png',
-                    'assets/images/keju.png',
-                    'assets/images/bebasongkir.png'
-                  ].map((i) {
-                    return Builder(
-                      builder: (BuildContext context) {
-                        return Container(
-                            width: lebar,
-                            margin: EdgeInsets.symmetric(horizontal: 5.0),
-                            decoration: BoxDecoration(
-                                color: Colors.amber,
-                                borderRadius:
-                                    BorderRadiusDirectional.circular(8)),
-                            child: Image.asset(
-                              i,
-                              fit: BoxFit.fill,
-                            ));
-                      },
-                    );
-                  }).toList(),
-                )),
+            // Container(
+            //     margin: EdgeInsets.only(top: 20),
+            //     // height: tinggi * 0.2,
+            //     child: CarouselSlider(
+            //       options: CarouselOptions(
+            //         height: tinggi * 0.15,
+            //         autoPlay: true,
+            //         autoPlayCurve: Curves.easeInOutQuart,
+            //       ),
+            //       items: [
+            //         'assets/images/kebut.png',
+            //         'assets/images/keju.png',
+            //         'assets/images/bebasongkir.png'
+            //       ].map((i) {
+            //         return Builder(
+            //           builder: (BuildContext context) {
+            //             return Container(
+            //                 width: lebar,
+            //                 margin: EdgeInsets.symmetric(horizontal: 5.0),
+            //                 decoration: BoxDecoration(
+            //                     color: Colors.amber,
+            //                     borderRadius:
+            //                         BorderRadiusDirectional.circular(8)),
+            //                 child: Image.asset(
+            //                   i,
+            //                   fit: BoxFit.fill,
+            //                 ));
+            //           },
+            //         );
+            //       }).toList(),
+            //     )),
+
+            FutureBuilder<QuerySnapshot<Object?>>(
+              future: sliderC.getData(),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.done) {
+                  var listData = snapshot.data!.docs;
+                  return Container(
+                      margin: EdgeInsets.only(top: 16),
+                      child: CarouselSlider(
+                        options: CarouselOptions(
+                          height: 130,
+                          autoPlay: true,
+                          autoPlayCurve: Curves.easeInOutQuart,
+                        ),
+                        items: listData.map((i) {
+                          return Builder(
+                            builder: (BuildContext context) {
+                              return Container(
+                                  width: lebar,
+                                  margin: EdgeInsets.symmetric(horizontal: 5.0),
+                                  decoration: BoxDecoration(
+                                      color: Colors.amber,
+                                      borderRadius:
+                                          BorderRadiusDirectional.circular(8)),
+                                  child: Image.network(
+                                    (i.data() as Map<String, dynamic>)[
+                                        'gambarSlider'],
+                                    fit: BoxFit.fill,
+                                  ));
+                              //       (listData[index].data()
+                              // as Map<String, dynamic>)['gambarProduk']
+                            },
+                          );
+                        }).toList(),
+                      ));
+                } else {
+                  return CircularProgressIndicator();
+                }
+              },
+            ),
             Container(
               margin: EdgeInsets.only(top: 30),
               child: Wrap(
@@ -207,19 +256,19 @@ class HomeView extends GetView<HomeController> {
               ),
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
-              width: lebar,
-              height: 310,
-              decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                begin: Alignment.topRight,
-                end: Alignment.bottomLeft,
-                colors: [
-                  Color(0xff01A0C6),
-                  Color(0xff01AA6C),
-                ],
-              )),
-              child: SingleChildScrollView(
+                margin: EdgeInsets.fromLTRB(0, 0, 0, 0),
+                width: lebar,
+                height: 340,
+                decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                  begin: Alignment.topRight,
+                  end: Alignment.bottomLeft,
+                  colors: [
+                    Color(0xff01A0C6),
+                    Color(0xff01AA6C),
+                  ],
+                )),
+                child:  SingleChildScrollView(
                 scrollDirection: Axis.horizontal,
                 child: Row(
                   children: [
@@ -227,32 +276,168 @@ class HomeView extends GetView<HomeController> {
                       margin: EdgeInsets.only(right: 32),
                       child: Image.asset("assets/images/kejar.png"),
                     ),
-                    Row(
-                      children: [
-                        KejarProduk(
-                            gambar: 'assets/images/masker.png',
-                            daerah: 'Kab. Bandung',
-                            diskon: '92%',
-                            harga: 'Rp 1.000',
-                            totalPersen: 100,
-                            currentPersen: 80,
-                            potongan: 'Rp 12.546',
-                            status: 'Segera Habis'),
-                        KejarProduk(
-                            gambar: 'assets/images/indomi.png',
-                            daerah: 'Jakarta Timur',
-                            diskon: '6%',
-                            harga: 'Rp 103.000',
-                            totalPersen: 100,
-                            currentPersen: 35,
-                            potongan: 'Rp 109.900',
-                            status: 'Tersedia')
-                      ],
+                     FutureBuilder<QuerySnapshot<Object?>>(
+                      future: produkC.getFlashSale(),
+                      builder: (context, snapshot) {
+                        if (snapshot.connectionState == ConnectionState.done) {
+                          var dataPromo = snapshot.data!.docs;
+                          return Container(
+                            // margin: EdgeInsets.only(left: 15),
+                            // padding: EdgeInsets.fromLTRB(20, 10, 30, 20),
+
+                            child: Row(
+                              children:
+                                  List.generate(dataPromo.length, (index) {
+                                return InkWell(
+                                  onTap: () => Get.toNamed(Routes.DETAIL),
+                                  child: Container(
+                                    margin: EdgeInsets.fromLTRB(30, 10, 0, 10),
+                                    width: 180,
+                                    height: tinggi * 0.59,
+                                    decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                    child: Column(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.start,
+                                      children: [
+                                        Container(
+                                          // margin: EdgeInsets.fromLTRB(10, 0, 10, 5),
+                                          // padding: EdgeInsets.fromLTRB(left, top, right, bottom),
+                                          width: 190,
+                                          height: 160,
+                                          child: Image.network(
+                                            (dataPromo[index].data() as Map<
+                                                String, dynamic>)["gambarProduk"],
+                                            // fit: BoxFit.cover,
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.fromLTRB(
+                                            10,
+                                            10,
+                                            0,
+                                            0,
+                                          ),
+                                          child: Text(
+                                            (dataPromo[index].data() as Map<
+                                                String, dynamic>)["namaProduk"],
+                                            // fit: BoxFit.cover,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15),
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.fromLTRB(
+                                            10,
+                                            10,
+                                            0,
+                                            0,
+                                          ),
+                                          child: Text(
+                                            (dataPromo[index].data() as Map<
+                                                    String, dynamic>)["hargaProduk"]
+                                                .toString(),
+                                            // fit: BoxFit.cover,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 15),
+                                          ),
+                                        ),
+                                        Row(
+                                          children: [
+                                            Container(
+                                              padding: EdgeInsets.all(2),
+                                              margin: EdgeInsets.fromLTRB(
+                                                  10, 5, 0, 0),
+                                              width: 30,
+                                              height: 20,
+                                              decoration:
+                                                  BoxDecoration(color: merahTrans),
+                                              child: Text(
+                                                (dataPromo[index].data() as Map<
+                                                        String,
+                                                        dynamic>)["diskonPersen"]
+                                                    .toString(),
+                                                style: TextStyle(color: merah),
+                                              ),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.fromLTRB(
+                                                  5, 5, 0, 0),
+                                              child: Text(
+                                                "Rp 12.546",
+                                                style: TextStyle(
+                                                    color: subJudul,
+                                                    decoration: TextDecoration
+                                                        .lineThrough),
+                                              ),
+                                            )
+                                          ],
+                                        ),
+                                        Row(
+                                          children: [
+                                            Container(
+                                              width: 20,
+                                              height: 20,
+                                              margin: EdgeInsets.fromLTRB(
+                                                  10, 5, 0, 0),
+                                              child: Image.asset(
+                                                  "assets/images/menu/ceklis.png"),
+                                            ),
+                                            Container(
+                                              margin: EdgeInsets.fromLTRB(
+                                                  5, 5, 0, 0),
+                                              child: Text(
+                                                "Kab. Tangerang",
+                                                style:
+                                                    TextStyle(color: subJudul),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        Container(
+                                          // margin: EdgeInsets.only(bottom: 10, top: 10),
+                                          // padding: EdgeInsets.fromLTRB(left, top, right, bottom),
+
+                                          margin:
+                                              EdgeInsets.fromLTRB(5, 10, 5, 0),
+                                          child: StepProgressIndicator(
+                                            totalSteps: 100,
+                                            currentStep: 80,
+                                            size: 5,
+                                            padding: 0,
+                                            selectedColor: merah,
+                                            unselectedColor: Color(0xffeeeeee),
+                                            roundedEdges: Radius.circular(2),
+                                          ),
+                                        ),
+                                        Container(
+                                          margin: EdgeInsets.only(
+                                              top: 15, left: 10),
+                                          child: Text(
+                                            "Segera Habis",
+                                            style: TextStyle(color: subJudul),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              }),
+                            ),
+                          );
+                        } else {
+                          return SizedBox();
+                        }
+                      },
                     )
                   ],
                 ),
               ),
-            ),
+                ),
             Container(
               margin: EdgeInsets.only(left: 20, top: 20),
               alignment: Alignment.centerLeft,
@@ -315,44 +500,82 @@ class HomeView extends GetView<HomeController> {
                 ],
               ),
             ),
+            // Container(
+            //   margin: EdgeInsets.only(left: 20, top: 20),
+            //   alignment: Alignment.centerLeft,
+            //   child: SingleChildScrollView(
+            //     scrollDirection: Axis.horizontal,
+            //     child: Row(
+            //       children: [
+            //         Produk(
+            //             nama: "Logitech G603 Lightspeed ...",
+            //             gambar: 'assets/images/mouse1.png',
+            //             daerah: 'Jakarta Timur',
+            //             diskon: '44%',
+            //             harga: 'Rp 609.000',
+            //             potongan: 'Rp 1.090.000',
+            //             rating: "4.6 | terjual 6rb"),
+            //         Produk(
+            //             nama: "Logitech G603 Lightspeed ...",
+            //             gambar: 'assets/images/mouse1.png',
+            //             daerah: 'Jakarta Timur',
+            //             diskon: '44%',
+            //             harga: 'Rp 609.000',
+            //             potongan: 'Rp 1.090.000',
+            //             rating: "4.6 | terjual 6rb"),
+            //         Produk(
+            //             nama: "Logitech G603 Lightspeed ...",
+            //             gambar: 'assets/images/mouse1.png',
+            //             daerah: 'Jakarta Timur',
+            //             diskon: '44%',
+            //             harga: 'Rp 609.000',
+            //             potongan: 'Rp 1.090.000',
+            //             rating: "4.6 | terjual 6rb")
+            //       ],
+            //     ),
+            //   ),
+            // ),
             Container(
-              margin: EdgeInsets.only(left: 20, top: 20),
-              alignment: Alignment.centerLeft,
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
+                child: SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Container(
+                height: 355,
                 child: Row(
                   children: [
-                    Produk(
-                        
-                        nama: "Logitech G603 Lightspeed ...",
-                        gambar: 'assets/images/mouse1.png',
-                        daerah: 'Jakarta Timur',
-                        diskon: '44%',
-                        harga: 'Rp 609.000',
-                        potongan: 'Rp 1.090.000',
-                        rating: "4.6 | terjual 6rb"),
-                    Produk(
-                        
-                        nama: "Logitech G603 Lightspeed ...",
-                        gambar: 'assets/images/mouse1.png',
-                        daerah: 'Jakarta Timur',
-                        diskon: '44%',
-                        harga: 'Rp 609.000',
-                        potongan: 'Rp 1.090.000',
-                        rating: "4.6 | terjual 6rb"),
-                    Produk(
-                        
-                        nama: "Logitech G603 Lightspeed ...",
-                        gambar: 'assets/images/mouse1.png',
-                        daerah: 'Jakarta Timur',
-                        diskon: '44%',
-                        harga: 'Rp 609.000',
-                        potongan: 'Rp 1.090.000',
-                        rating: "4.6 | terjual 6rb")
+                    SizedBox(
+                      width: 24,
+                    ),
+                    FutureBuilder<QuerySnapshot<Object?>>(
+                        // future: sliderC.getData(),
+                        future: produkC.getProduk(),
+                        builder: (context, snapshot) {
+                          if (snapshot.connectionState ==
+                              ConnectionState.done) {
+                            var listData = snapshot.data!.docs;
+                            print("========================");
+                            print(listData);
+                            print("========================");
+                            return Wrap(
+                              spacing: 0,
+                              alignment: WrapAlignment.spaceBetween,
+                              runSpacing: 10,
+                              // children: List.generate(listData.length, (index) => Text((listData[index].data() as Map<String, dynamic>)['namaProduk'])),
+                              children: List.generate(
+                                  listData.length,
+                                  (index) => ProdukCard(
+                                      data: listData[index].data()
+                                          as Map<String, dynamic>)),
+                            );
+                          } else {
+                            return (Center(
+                              child: CircularProgressIndicator(),
+                            ));
+                          }
+                        }),
                   ],
                 ),
               ),
-            ),
+            )),
             Container(
               padding: EdgeInsets.symmetric(horizontal: 15),
               margin: EdgeInsets.only(left: 20, top: 20),
@@ -386,49 +609,46 @@ class HomeView extends GetView<HomeController> {
               ),
             ),
             Container(
-              // padding: EdgeInsets.symmetric(horizontal: 15),
-              margin: EdgeInsets.only(left:10, top: 20),
-              alignment: Alignment.center,
-
+                // padding: EdgeInsets.symmetric(horizontal: 15),
+                margin: EdgeInsets.only(left: 10, top: 20),
+                alignment: Alignment.center,
                 child: Wrap(
                   spacing: 20,
-              children: [
-                Produk(
-                    nama: "Logitech G603 Lightspeed ...",
-                    gambar: 'assets/images/mouse1.png',
-                    daerah: 'Jakarta Timur',
-                    diskon: '44%',
-                    harga: 'Rp 609.000',
-                    potongan: 'Rp 1.090.000',
-                    rating: "4.6 | terjual 6rb"),
-                Produk(
-                    nama: "Logitech G603 Lightspeed ...",
-                    gambar: 'assets/images/mouse1.png',
-                    daerah: 'Jakarta Timur',
-                    diskon: '44%',
-                    harga: 'Rp 609.000',
-                    potongan: 'Rp 1.090.000',
-                    rating: "4.6 | terjual 6rb"),
-                Produk(
-
-                    nama: "Logitech G603 Lightspeed ...",
-                    gambar: 'assets/images/mouse1.png',
-                    daerah: 'Jakarta Timur',
-                    diskon: '44%',
-                    harga: 'Rp 609.000',
-                    potongan: 'Rp 1.090.000',
-                    rating: "4.6 | terjual 6rb"),
-                Produk(
-
-                    nama: "Logitech G603 Lightspeed ...",
-                    gambar: 'assets/images/mouse1.png',
-                    daerah: 'Jakarta Timur',
-                    diskon: '44%',
-                    harga: 'Rp 609.000',
-                    potongan: 'Rp 1.090.000',
-                    rating: "4.6 | terjual 6rb"),
-              ],
-            )),
+                  children: [
+                    Produk(
+                        nama: "Logitech G603 Lightspeed ...",
+                        gambar: 'assets/images/mouse1.png',
+                        daerah: 'Jakarta Timur',
+                        diskon: '44%',
+                        harga: 'Rp 609.000',
+                        potongan: 'Rp 1.090.000',
+                        rating: "4.6 | terjual 6rb"),
+                    Produk(
+                        nama: "Logitech G603 Lightspeed ...",
+                        gambar: 'assets/images/mouse1.png',
+                        daerah: 'Jakarta Timur',
+                        diskon: '44%',
+                        harga: 'Rp 609.000',
+                        potongan: 'Rp 1.090.000',
+                        rating: "4.6 | terjual 6rb"),
+                    Produk(
+                        nama: "Logitech G603 Lightspeed ...",
+                        gambar: 'assets/images/mouse1.png',
+                        daerah: 'Jakarta Timur',
+                        diskon: '44%',
+                        harga: 'Rp 609.000',
+                        potongan: 'Rp 1.090.000',
+                        rating: "4.6 | terjual 6rb"),
+                    Produk(
+                        nama: "Logitech G603 Lightspeed ...",
+                        gambar: 'assets/images/mouse1.png',
+                        daerah: 'Jakarta Timur',
+                        diskon: '44%',
+                        harga: 'Rp 609.000',
+                        potongan: 'Rp 1.090.000',
+                        rating: "4.6 | terjual 6rb"),
+                  ],
+                )),
 
             Container(
               width: lebar,
@@ -523,7 +743,7 @@ Widget Produk({
   rating,
 }) {
   return Container(
-    margin: EdgeInsets.only(right : 15,bottom: 15  ),
+    margin: EdgeInsets.only(right: 15, bottom: 15),
     width: 146,
     height: 323,
     decoration: BoxDecoration(
@@ -537,19 +757,20 @@ Widget Produk({
         )
       ],
     ),
-  
     child: Column(
       children: [
         Container(
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
-              topRight: Radius.circular(15),
-              topLeft: Radius.circular(15),
-            )
-          ),
+              borderRadius: BorderRadius.only(
+            topRight: Radius.circular(15),
+            topLeft: Radius.circular(15),
+          )),
           width: 200,
           height: 146,
-          child: Image.asset(gambar,fit: BoxFit.fill,),
+          child: Image.asset(
+            gambar,
+            fit: BoxFit.fill,
+          ),
         ),
         Container(
           width: double.infinity,
@@ -674,7 +895,7 @@ Widget KejarProduk(
         Container(
           width: 146,
           height: 146,
-          child: Image.asset(gambar),
+          child: Image.network(gambar),
         ),
         Container(
           width: double.infinity,
@@ -762,6 +983,154 @@ Widget KejarProduk(
                         fontSize: 10,
                         fontWeight: FontWeight.w500,
                         color: subJudul)),
+              ),
+            ],
+          ),
+        )
+      ],
+    ),
+  );
+}
+
+Widget ProdukCard(
+    {data,
+    double lebar = 146,
+    double tinggi = 316,
+    double lebarGambar = 146,
+    double tinggiGambar = 146,
+    double marginKanan = 15}) {
+  String truncate(String text, {length = 7, omission = '...'}) {
+    if (length >= text.length) {
+      return text;
+    }
+    return text.replaceRange(length, text.length, omission);
+  }
+
+  double diskon = data['diskonPersen'];
+  double harga = data['hargaProduk'];
+
+  double convertDiskon() {
+    double disk = diskon * (harga / 100);
+    double hargaFix = harga - disk;
+    return hargaFix;
+  }
+
+  return Container(
+    margin: EdgeInsets.only(right: marginKanan),
+    // padding: EdgeInsets.symmetric(vertical: 10),
+    width: lebar,
+    height: tinggi,
+    decoration: BoxDecoration(boxShadow: [
+      BoxShadow(
+        color: Colors.grey.withOpacity(0.5),
+        spreadRadius: 5,
+        blurRadius: 7,
+        offset: Offset(0, 0), // changes position of shadow
+      ),
+    ], borderRadius: BorderRadius.circular(8), color: Colors.white),
+    child: Column(
+      children: [
+        Container(
+          width: lebarGambar,
+          height: tinggiGambar,
+          child: Image.network(data['gambarProduk']),
+        ),
+        Container(
+          width: double.infinity,
+          padding: EdgeInsets.fromLTRB(10, 12, 10, 12),
+          child: Column(
+            children: [
+              Container(
+                margin: EdgeInsets.only(bottom: 10),
+                alignment: Alignment.centerLeft,
+                child: Text(truncate(data['namaProduk'], length: 22),
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w400)),
+              ),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  convertDiskon().toString(),
+                  style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(bottom: 6, top: 6),
+                child: Row(
+                  children: [
+                    Container(
+                      margin: EdgeInsets.only(right: 6),
+                      width: 36,
+                      height: 20,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadiusDirectional.circular(2),
+                          color: merahTrans),
+                      child: Center(
+                        child: Text(
+                          '${data['diskonPersen'].toString()}%',
+                          style: TextStyle(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w600,
+                              color: merah),
+                        ),
+                      ),
+                    ),
+                    Container(
+                      child: Text(
+                        data['hargaProduk'].toString(),
+                        style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            decoration: TextDecoration.lineThrough,
+                            color: Colors.grey),
+                      ),
+                    )
+                  ],
+                ),
+              ),
+              Container(
+                margin: EdgeInsets.only(bottom: 16),
+                child: Row(
+                  children: [
+                    Container(
+                      width : 20,
+                      height : 20,
+                      margin: EdgeInsets.only(right: 2),
+                      child: Image.network(data['statusToko']),
+                    ),
+                    Container(
+                      child: Text(
+                        data['asalToko'],
+                        style: TextStyle(
+                            fontSize: 14,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.grey),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Container(
+                alignment: Alignment.centerLeft,
+                child: Row(
+                  children: [
+                    Container(
+                        margin: EdgeInsets.only(right: 4),
+                        child: Icon(
+                          CupertinoIcons.star_fill,
+                          color: Color(0xffffc400),
+                          size: 13,
+                        )),
+                    Container(
+                      child: Text(
+                          '${data['rating'].toString()} | Terjual ${data['terjual'].toString()}',
+                          style: TextStyle(
+                              fontSize: 10,
+                              fontWeight: FontWeight.w400,
+                              color: Colors.grey)),
+                    ),
+                  ],
+                ),
               ),
             ],
           ),

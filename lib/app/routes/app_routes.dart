@@ -18,6 +18,7 @@ abstract class Routes {
   static const SLIDER_DATA = _Paths.SLIDER_DATA;
   static const UPDATE_DATA = _Paths.UPDATE_DATA;
   static const CREATE_DATA = _Paths.CREATE_DATA;
+  static const PRODUK_DATA = _Paths.PRODUK_DATA;
 }
 
 abstract class _Paths {
@@ -35,4 +36,5 @@ abstract class _Paths {
   static const SLIDER_DATA = '/slider-data';
   static const UPDATE_DATA = '/update-data';
   static const CREATE_DATA = '/create-data';
+  static const PRODUK_DATA = '/produk-data';
 }

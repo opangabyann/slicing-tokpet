@@ -41,24 +41,27 @@ class HomeAdminView extends GetView<HomeAdminController> {
                 ),
               ),
 
-              Container(
-                width: 100,
-                child: Column(
-                  children: [
-                    Container(
-                      child: Image.asset('assets/images/menu/promo.png'),
-                    ),
-                    Container(
-                      margin: EdgeInsets.only(
-                        top: 7,
+              InkWell(
+                onTap: () => Get.toNamed(Routes.PRODUK_DATA),
+                child: Container(
+                  width: 100,
+                  child: Column(
+                    children: [
+                      Container(
+                        child: Image.asset('assets/images/menu/promo.png'),
                       ),
-                      // width: widht,
-                      child: Text(
-                        "promo",
-                        textAlign: TextAlign.center,
-                      ),
-                    )
-                  ],
+                      Container(
+                        margin: EdgeInsets.only(
+                          top: 7,
+                        ),
+                        // width: widht,
+                        child: Text(
+                          "produk data",
+                          textAlign: TextAlign.center,
+                        ),
+                      )
+                    ],
+                  ),
                 ),
               )
             ],

@@ -29,17 +29,19 @@ class SliderController extends GetxController {
     return await slider.get();
   }
 
-  updateData(String id, bool aktifSlider, String keteranganSlider,
+  updateData(String id, bool activeSlider, String keteranganSlider,
       String gambarSlider) async {
     try {
       final data = {
-        "aktifSlider": aktifSlider,
+        "aktifSlider": activeSlider,
         "keteranganSlider": keteranganSlider,
         "gambarSlider": gambarSlider
       };
       DocumentReference slider = firestore.collection("slider").doc(id);
       await slider.update(data);
       Get.defaultDialog(title: "success", middleText: "berhasil mengubah data");
+      getData();
+      Get.toNamed(Routes.SLIDER_DATA);
     } catch (e) {
       print(e);
       Get.defaultDialog(title: "fail", middleText: "gagal mengubah data");
@@ -54,6 +56,8 @@ class SliderController extends GetxController {
             onPressed: () async {
               DocumentReference slider = firestore.collection("slider").doc(id);
               await slider.delete();
+              
+              getData();
               Get.defaultDialog(
                   backgroundColor: Colors.green,
                   title: "success",
@@ -62,6 +66,7 @@ class SliderController extends GetxController {
                   titleStyle: TextStyle(color: Colors.white),
                   // ignore: prefer_const_constructors
                   middleTextStyle: TextStyle(color: Colors.white));
+
             },
             child: Text("yes!")),
         cancel: ElevatedButton(
@@ -69,6 +74,7 @@ class SliderController extends GetxController {
             onPressed: () => Get.back(),
             child: Text("No")),
       );
+      
     } catch (e) {
       print(e);
       Get.defaultDialog(title: "fail", middleText: "gagal menghapus data");

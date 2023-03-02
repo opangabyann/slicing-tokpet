@@ -19,7 +19,7 @@ class AuthControllerController extends GetxController {
     try {
       final credential = await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: emailAddress, password: password);
-      Get.offAllNamed(Routes.HOME_ADMIN);
+      Get.offAllNamed(Routes.HOME);
       Get.defaultDialog(middleText: "berhasil login");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {

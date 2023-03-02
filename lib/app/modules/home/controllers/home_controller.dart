@@ -1,6 +1,7 @@
 // ignore_for_file: unnecessary_overrides
 
 import 'package:get/get.dart';
+import 'package:tokopedia/app/controllers/produk_controller.dart';
 
 class HomeController extends GetxController {
   //TODO: Implement HomeController
@@ -8,6 +9,7 @@ class HomeController extends GetxController {
   final count = 0.obs;
   @override
   void onInit() {
+    ProdukController().filterData();
     super.onInit();
   }
 

@@ -19,7 +19,7 @@ class SliderDataView extends GetView<SliderDataController> {
         title: Text('SliderDataView'),
         centerTitle: true,
       ),
-      body: FutureBuilder<QuerySnapshot<Object?>>(
+      body: FutureBuilder<QuerySnapshot<Object?>>( 
           future: sliderC.getData(),
           builder: (context, Snapshot) {
             if (Snapshot.connectionState == ConnectionState.done) {
